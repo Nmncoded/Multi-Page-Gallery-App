@@ -1,24 +1,22 @@
 import { connect } from 'react-redux'
-import { Switch,Route,BrowserRouter,Router } from 'react-router-dom'
-import Collection from './collection';
+import { BrowserRouter as Router, Route, Switch} from 'react-router-dom'
+import AllImages from './allimages';
 import CreateCollection from './createcollection';
 import Dashboard from './dashboard';
 import PageNotFound from './pagenotfound';
+import AddImage from './addimage'
 
 function App(){
   console.log("route")
   return(
     // <BrowserRouter>
         <Switch>
-          <Route path="/create-collection" exact >
-            <CreateCollection />
-          </Route>
+          <Route path="/create-collection" component={CreateCollection} />
           <Route path="/" exact >
             <Dashboard />
           </Route>
-          <Route path="/collection" exact >
-            <Collection />
-          </Route>
+          <Route path="/add-image/:id" component={AddImage} />
+          <Route path="/all-images/:id" component={AllImages} />
           <Route path="*" >
             <PageNotFound />
           </Route>

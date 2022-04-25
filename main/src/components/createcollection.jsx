@@ -6,48 +6,66 @@ import {
     Input
   } from '@chakra-ui/react';
 import { connect } from 'react-redux';
-import {useRef} from 'react';
+import {useRef, useState} from 'react';
 
 function CreateCollection(props){
     let {allCollection,dispatch} = props;
-    let { fieldsError, nameError } = props.errors;
-    let inputFields = useRef({});
+    let [nameInput,setNameInput] = useState("");
+    let [description,setDescription] = useState("");
+    let [imageUrl,setImageUrl] = useState("");
+    let [fieldsError, setFieldsError] = useState("");
+    let [nameError, setNameError] = useState("");
+    let [urlError,setUrlError] = useState("");
+
+    const validateImageUrl = (url) => {
+        let re = /(http[s]?:\/\/.*\.(?:png|jpg|gif|svg|jpeg))/i;
+        return re.test(url);
+    }
 
     const handleInputChange = ({target}) => {
         let {value,name} = target;
-        let obj = inputFields.current;
-        let {description,allPhotos} = obj;
-        console.log(name,value);
-        if(name === "imageUrl"){
-            allPhotos.push(value)
-        }else{
-            obj[name] = value;
-        }
-        if(name === "name"){
-            if( allCollection.length && allCollection.some(collection => collection.name === value)){
-                dispatch({type:"nameError",payload : "Name already exists !!!"})
+
+        if(name === "collectionName"){
+            setNameInput(value);
+            if( allCollection.length && (allCollection.some(collection => collection.collectionName === value))){
+                setNameError("Name already exists !!!");
             }else{
-                dispatch({type:"nameError",payload : ""});
+                setNameError("");
             }
         }
         
+        if(name === "imageUrl"){
+            setImageUrl(value)
+            if(validateImageUrl(value)){
+                setUrlError("")
+            }else{
+                setUrlError("Enter a valid image url !!!")
+            }
+        }
+        if(name === "description"){
+            setDescription(value);
+        }
 
-        if(obj.name && description && allPhotos.length){
-            dispatch({type:"fieldsError",payload : ""})
+        if(nameInput && description && imageUrl){
+            setFieldsError("")
         }
         
     }
 
     const handleInputSubmit = (event) => {
         event.preventDefault();
-        let obj = inputFields.current;
-        let {description,allPhotos} = obj;
-        console.log("submit");
-        if(obj.name && description && allPhotos.length){
-            dispatch({type:"fieldsError",payload : ""});
-            dispatch({type:"create-collection",payload:inputFields.current})
+        if(nameInput && description && imageUrl){
+            setFieldsError("");
+            let allPhotos = [];
+            let obj = {
+                CollectionName : nameInput,
+                description : description,
+                allPhotos : allPhotos.concat(imageUrl),
+            };
+            dispatch({type:"create-collection",payload:obj})
+            props.history.push("/")
         }else{
-            dispatch({type:"fieldsError",payload : "None fields should be empty !!!"})
+            setFieldsError("None fields should be empty !!!");
         }
         
     }
@@ -58,14 +76,16 @@ function CreateCollection(props){
                 <FormLabel htmlFor='name'>Name:</FormLabel>
                 <Input
                   id='name'
-                  name='name'
+                  name='collectionName'
                   type='text'
+                  value={nameInput}
                   onChange={handleInputChange}
                 />
-                {nameError ? <FormErrorMessage className="err-msg" >{nameError}</FormErrorMessage> : ""}
+                {nameError ? <p className="err-msg" >{nameError}</p> : ""}
                 <FormLabel htmlFor='description'>Description:</FormLabel>
                 <Input
                   id='description'
+                  value={description}
                   type='text'
                   name='description'
                   onChange={handleInputChange}  
@@ -74,11 +94,13 @@ function CreateCollection(props){
                 <Input
                   id='url'
                   name='imageUrl'
+                  value={imageUrl}
                   type='text'
                   onChange={handleInputChange}
                 />
-                {fieldsError ? <FormErrorMessage className="err-msg" >{fieldsError}</FormErrorMessage> : ""}
-                <Button type='submit' isDisabled={fieldsError || nameError ? true : false} onClick={handleInputSubmit} id="submit" colorScheme='blue'>Save</Button>
+                {urlError ? <p className="err-msg" >{urlError}</p> : ""}
+                {fieldsError ? <p className="err-msg" >{fieldsError}</p> : ""}
+                <Button type='submit' isDisabled={fieldsError || nameError || urlError ? true : false} onClick={handleInputSubmit} id="submit" colorScheme='blue'>Save</Button>
             </FormControl>
         </section>
     )
@@ -87,7 +109,6 @@ function CreateCollection(props){
 function mapStateToProps(state){
     return {
         allCollection : state.allCollection,
-        errors : state.errors,
     }
 }
 

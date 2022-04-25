@@ -1,0 +1,68 @@
+.all-images-ui {
+    margin: 36px;
+}
+.header {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-bottom: 36px;
+    h1 {
+        font-size: 36px;
+        margin-bottom: 6px;
+        font-weight: 300;
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+    p {
+        line-height: 1.2;
+        color: rgba(black,0.7);
+    }
+}
+
+.no-image {
+    margin: 36px;
+    color: red;
+}
+
+.add-image {
+    margin: 0 36px;
+    display: flex;
+    justify-content: center;
+}
+
+
+
+.all-images {
+    margin: 56px 24px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    // align-items: center;
+}
+
+.one-image {
+    // border: 2px solid rgba(black,0.4);
+
+    box-shadow: -5px -5px 10px rgba(255, 255, 255, 0.5), 5px 5px 10px rgba(170, 170, 204, 0.25), 10px 10px 20px rgba(170, 170, 204, 0.5), -10px -10px 20px #FFFFFF;
+    flex: 40%;
+    @media screen and (max-width:426px){
+        flex: 80%;
+    }
+    margin: 24px;
+    .delete-btn {
+        padding: 8px;
+        display: flex;
+        justify-content: flex-end;
+    }
+}
+
+
+.img {
+    width: 100%;
+    img {
+        // border-top-left-radius: 16px;
+        width: 100%;
+        object-fit: cover;
+    }
+}

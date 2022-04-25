@@ -1,6 +1,5 @@
 import { Button } from '@chakra-ui/react';
 import { BsPlusLg } from 'react-icons/bs'
-// import { withRouter,Link } from 'react-router-dom';
 import { Link } from 'react-router-dom'
 import CollectionUi from './collectionUi';
 

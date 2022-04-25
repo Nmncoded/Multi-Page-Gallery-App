@@ -1,6 +1,7 @@
 import { useToast,Box,Button } from '@chakra-ui/react';
 import { GiCrossMark } from 'react-icons/gi';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 function CollectionUI(props){
     let {allCollection,dispatch} = props;
@@ -16,11 +17,18 @@ function CollectionUI(props){
             {
                 allCollection.map((collection,index) => {
                     return (
-                        <li key={index} className='one-collection'>
+                        // <Link  to={`/all-images/${index}`} >
+                            
+                        <li className='one-collection' key={index}>
                             <div className='delete-btn' >
+                                <div className='info' >
+                                    <h1>{collection.collectionName}</h1>
+                                    <p>{collection.allPhotos.length + ` images`}</p>
+                                </div>
                                 <Button
-                                  onClick={() =>
-                                    {toast({
+                                  onClick={(event) =>
+                                    {
+                                        toast({
                                       position: 'bottom-left',
                                       render: () => (
                                         <Box color='white' p={1} bg='blue.500'>
@@ -33,16 +41,24 @@ function CollectionUI(props){
                                   <GiCrossMark />
                                 </Button>
                             </div>
-                            <div className='collection-info' >
-                                  <div className='img' >
-                                      <img src={collection.allPhotos[0]} alt={collection.name} />
-                                  </div>
-                                  <div className='info' >
-                                      <h1>{collection.name}</h1>
-                                      <p>{collection.allPhotos.length + ` images`}</p>
-                                  </div>
-                            </div>
+                            <ul className='images-preview' >
+                                {
+                                    collection.allPhotos.map((photo,i) => {
+                                        if(i >=3)return ;
+                                        return (
+                                            <Link key={i} className='img' to={`/all-images/${index}`} >
+                                                <li  >
+                                                    <img src={photo} alt={i} />
+                                                </li>
+                                            </Link>
+                                        )
+                                    })
+                                }
+                                  
+                                  
+                            </ul>
                         </li>
+                        // </Link>
                     )
                 })
             }

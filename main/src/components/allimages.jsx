@@ -4,17 +4,16 @@ import { GiCrossMark } from 'react-icons/gi';
 import { BsArrowLeft } from "react-icons/bs";
 import { MdAdd } from "react-icons/md";
 import { Link, NavLink } from "react-router-dom";
+import { deleteImage } from "../store/action";
 
 function AllImages(props){
     let {dispatch} = props;
     let {id} = props.match.params;
     let collection = props.allCollection[id];
-    console.log(id,collection);
     const toast = useToast();
 
     const handleImageDelete = (collectionID,imageID) => {
-        console.log("image dlte");
-        dispatch({type:"delete-image",payload: [+collectionID,imageID]})
+        dispatch(deleteImage([+collectionID,imageID]));
     }
     return(
         <section className="all-images-ui" >

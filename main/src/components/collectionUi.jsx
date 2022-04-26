@@ -2,13 +2,14 @@ import { useToast,Box,Button } from '@chakra-ui/react';
 import { GiCrossMark } from 'react-icons/gi';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { deleteCollection } from '../store/action';
 
 function CollectionUI(props){
     let {allCollection,dispatch} = props;
     const toast = useToast();
 
     const handleCollectionDelete = (id) => {
-        dispatch({type:"delete-collection",payload: id})
+        dispatch(deleteCollection(id))
     }
 
     if(!allCollection.length) return <h1 className='no-collection' >No collection Added !!!</h1>
@@ -17,7 +18,6 @@ function CollectionUI(props){
             {
                 allCollection.map((collection,index) => {
                     return (
-                        // <Link  to={`/all-images/${index}`} >
                             
                         <li className='one-collection' key={index}>
                             <div className='delete-btn' >
@@ -58,7 +58,6 @@ function CollectionUI(props){
                                   
                             </ul>
                         </li>
-                        // </Link>
                     )
                 })
             }

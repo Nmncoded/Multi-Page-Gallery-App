@@ -7,6 +7,7 @@ import {
     Button,
     Input
   } from '@chakra-ui/react';
+  import { addImage } from "../store/action";
 
 function AddImage(props){
     let [error,setError] = useState("");
@@ -22,22 +23,23 @@ function AddImage(props){
 
     const handleInputChange = ({target}) => {
         let {value,name} = target;
-        setImageUrl(value);
-        if(validateImageUrl(imageUrl)){
+        
+        if(validateImageUrl(value)){
            setError("")
         }else{
-            setError("Enter valid image url !!!")
+            setError("Enter valid image url including png|jpg|gif|svg|jpeg at the end !!!")
         }
-
+        setImageUrl(value);
     }
-    const handleInputSubmit = () => {
-        dispatch({type:"add-image",payload : [imageUrl,+id]});
+    const handleInputSubmit = (event) => {
+        event.preventDefault();
+        dispatch(addImage([imageUrl,+id]));
             props.history.push(`/all-images/${id}`)
     }
     return (
         <section className="add-image" >
             <FormControl className="form-control" isInvalid={error}>
-            <FormLabel htmlFor='image'>Add Image:</FormLabel>
+            <FormLabel htmlFor='image'>Add Image Url:</FormLabel>
                 <Input
                   id='image'
                   name='imageUrl'

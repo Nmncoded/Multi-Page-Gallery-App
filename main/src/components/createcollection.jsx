@@ -7,6 +7,7 @@ import {
   } from '@chakra-ui/react';
 import { connect } from 'react-redux';
 import {useRef, useState} from 'react';
+import { createCollection } from '../store/action';
 
 function CreateCollection(props){
     let {allCollection,dispatch} = props;
@@ -25,6 +26,10 @@ function CreateCollection(props){
     const handleInputChange = ({target}) => {
         let {value,name} = target;
 
+        if(nameInput && description && imageUrl){
+            setFieldsError("")
+        }
+
         if(name === "collectionName"){
             setNameInput(value);
             if( allCollection.length && (allCollection.some(collection => collection.collectionName === value))){
@@ -39,16 +44,14 @@ function CreateCollection(props){
             if(validateImageUrl(value)){
                 setUrlError("")
             }else{
-                setUrlError("Enter a valid image url !!!")
+                setUrlError("Enter valid image url including png|jpg|gif|svg|jpeg at the end !!!")
             }
         }
         if(name === "description"){
             setDescription(value);
         }
 
-        if(nameInput && description && imageUrl){
-            setFieldsError("")
-        }
+        
         
     }
 
@@ -58,11 +61,11 @@ function CreateCollection(props){
             setFieldsError("");
             let allPhotos = [];
             let obj = {
-                CollectionName : nameInput,
+                collectionName : nameInput,
                 description : description,
                 allPhotos : allPhotos.concat(imageUrl),
             };
-            dispatch({type:"create-collection",payload:obj})
+            dispatch(createCollection(obj))
             props.history.push("/")
         }else{
             setFieldsError("None fields should be empty !!!");

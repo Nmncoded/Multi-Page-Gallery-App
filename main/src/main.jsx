@@ -8,7 +8,6 @@ import store from './store/Reducer';
 import './stylesheets/style.css'
 
 createRoot(document.getElementById('root')).render(
-  // <React.StrictMode>
       <ChakraProvider>
         <Provider store={store} >
           <Router>
@@ -16,5 +15,4 @@ createRoot(document.getElementById('root')).render(
           </Router>
         </Provider>
       </ChakraProvider>
-  // </React.StrictMode>
 )

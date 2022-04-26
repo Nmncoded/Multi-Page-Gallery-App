@@ -7,9 +7,7 @@ import PageNotFound from './pagenotfound';
 import AddImage from './addimage'
 
 function App(){
-  console.log("route")
   return(
-    // <BrowserRouter>
         <Switch>
           <Route path="/create-collection" component={CreateCollection} />
           <Route path="/" exact >
@@ -21,7 +19,6 @@ function App(){
             <PageNotFound />
           </Route>
         </Switch>
-    // </BrowserRouter>
   )
 }
 

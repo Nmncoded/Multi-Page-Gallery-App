@@ -1,6 +1,6 @@
 import { legacy_createStore as createStore} from 'redux';
 let data= {
-    allCollection : JSON.parse(localStorage.getItem("collections")),
+    allCollection : [],
 };
 
 let store = createStore(Reducer,undefined,window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());

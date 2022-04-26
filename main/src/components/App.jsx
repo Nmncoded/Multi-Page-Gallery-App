@@ -9,6 +9,13 @@ import { useEffect } from 'react';
 
 
 function App(props){
+  let {allCollection,dispatch} = props;
+  useEffect(() => {
+    let collection = localStorage.getItem("collections");
+    if(collection && collection.length > 0){
+      dispatch({type : "create-collection",payload : JSON.parse(collection)})
+    } 
+  },[])
   useEffect(() => {
     localStorage.setItem("collections",JSON.stringify(props.allCollection))
   },[props.allCollection])

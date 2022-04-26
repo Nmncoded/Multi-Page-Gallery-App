@@ -5,8 +5,13 @@ import CreateCollection from './createcollection';
 import Dashboard from './dashboard';
 import PageNotFound from './pagenotfound';
 import AddImage from './addimage'
+import { useEffect } from 'react';
 
-function App(){
+
+function App(props){
+  useEffect(() => {
+    localStorage.setItem("collections",JSON.stringify(props.allCollection))
+  },[props.allCollection])
   return(
         <Switch>
           <Route path="/create-collection" component={CreateCollection} />
